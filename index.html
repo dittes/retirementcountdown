@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your personal countdown to retirement. Find out how long until your retirement and learn about important aspects of retirement planning.">
+    <meta name="keywords" content="retirement countdown, retirement age, pension planning, retirement calculator, countdown to retirement, retirement planning">
+    <meta name="author" content="RetirementCountdown">
+    <meta property="og:title" content="⏰ Retirement Countdown - Your Path to Retirement">
+    <meta property="og:description" content="Personalized countdown to your retirement. Calculate your retirement date now and get informed about retirement planning.">
+    <meta property="og:type" content="website">
+    <title>⏰ Retirement Countdown - Your Personal Countdown to Retirement</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>⏰ Retirement Countdown</h1>
+        
+        <div class="form-container hidden" id="birthdayForm">
+            <div class="form-header">
+                <h3>Enter Birth Date</h3>
+                <button class="close-button" onclick="hideDatePicker()">×</button>
+            </div>
+            <input type="date" id="birthday" required>
+            <button onclick="setBirthday()">Start Countdown</button>
+        </div>
+
+        <div id="countdown" class="countdown">
+            <div class="countdown-item">
+                <div class="number" id="years">0</div>
+                <div class="label">Years</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="months">0</div>
+                <div class="label">Months</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="days">0</div>
+                <div class="label">Days</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="hours">0</div>
+                <div class="label">Hours</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="seconds">0</div>
+                <div class="label">Seconds</div>
+            </div>
+        </div>
+        <div class="retirement-date-container">
+            <span class="retirement-date" id="retirementDate"></span>
+        </div>
+    </div>
+
+    <div class="bottom-buttons">
+        <button class="action-button" onclick="sharePage()">
+            🔗<span>Share</span>
+        </button>
+        <button class="action-button" onclick="toggleSettings()">
+            ⚙️<span>Settings</span>
+        </button>
+        <button class="action-button" onclick="toggleInfo()">
+            ℹ️<span>More Info</span>
+        </button>
+    </div>
+
+    <nav class="navigation">
+        <a href="https://dittes.info/contact/" target="_blank">Imprint</a>
+    </nav>
+
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-panel-header">
+            <h2>Settings</h2>
+            <button class="close-button" onclick="toggleSettings()" title="Close">×</button>
+        </div>
+        <div class="settings-content">
+            <div class="settings-group">
+                <h3>Personal Settings</h3>
+                <button class="settings-button" onclick="showDatePicker()">
+                    📅 Change Birth Date
+                </button>
+                <button class="settings-button" onclick="addToHomescreen()">
+                    📱 Add to Home Screen
+                </button>
+            </div>
+            <div class="settings-group">
+                <h3>Retirement Settings</h3>
+                <label class="settings-label" for="retirementAge">Retirement Age</label>
+                <input 
+                    type="number" 
+                    id="retirementAge" 
+                    class="settings-input" 
+                    min="55" 
+                    max="75" 
+                    value="67" 
+                    onchange="updateRetirementAge(this.value)"
+                >
+            </div>
+            <div class="settings-group">
+                <h3>Design</h3>
+                <select class="background-select" onchange="selectBackground(this.value)">
+                    <option value="0">Background 1 - Mountains</option>
+                    <option value="1">Background 2 - Sunset</option>
+                    <option value="2">Background 3 - Ocean</option>
+                    <option value="3">Background 4 - Forest</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modified script section with new retirement age functionality -->
+    <script>
+        // Previous script content remains the same until retirement age functions
+
+        function updateRetirementAge(age) {
+            age = parseInt(age);
+            if (age >= 55 && age <= 75) {
+                localStorage.setItem('retirementAge', age);
+                const birthday = localStorage.getItem('birthday');
+                if (birthday) {
+                    startCountdown(birthday);
+                }
+            }
+        }
+
+        function getRetirementAge() {
+            return parseInt(localStorage.getItem('retirementAge')) || 67;
+        }
+
+        // Modified startCountdown function
+        function startCountdown(birthday) {
+            document.getElementById('countdown').style.display = 'flex';
+            
+            const birthDate = new Date(birthday);
+            const retirementDate = new Date(birthDate);
+            retirementDate.setFullYear(birthDate.getFullYear() + getRetirementAge());
+            
+            const options = { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric' 
+            };
+            document.getElementById('retirementDate').textContent = 
+                `Retirement date: ${retirementDate.toLocaleDateString('en-US', options)}`;
+
+            function updateCountdown() {
+                const now = new Date();
+                const difference = retirementDate - now;
+
+                if (difference > 0) {
+                    const years = Math.floor(difference / (1000 * 60 * 60 * 24 * 365));
+                    const months = Math.floor((difference % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+                    const days = Math.floor((difference % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                    document.getElementById('years').textContent = years;
+                    document.getElementById('months').textContent = months;
+                    document.getElementById('days').textContent = days;
+                    document.getElementById('hours').textContent = hours;
+                    document.getElementById('seconds').textContent = seconds;
+                } else {
+                    document.getElementById('countdown').innerHTML = '<h2>You are already retired! 🎉</h2>';
+                }
+            }
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        // Modified init function
+        function init() {
+            initBackground();
+            
+            // Set initial retirement age if not set
+            if (!localStorage.getItem('retirementAge')) {
+                localStorage.setItem('retirementAge', 67);
+            }
+            document.getElementById('retirementAge').value = getRetirementAge();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlDate = urlParams.get('birth');
+            
+            if (urlDate) {
+                const formattedDate = new Date(urlDate).toISOString().split('T')[0];
+                document.getElementById('birthday').value = formattedDate;
+                setBirthday();
+            } else {
+                const storedBirthday = localStorage.getItem('birthday');
+                if (storedBirthday) {
+                    document.getElementById('birthday').value = storedBirthday;
+                    startCountdown(storedBirthday);
+                } else {
+                    showDatePicker();
+                }
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>
