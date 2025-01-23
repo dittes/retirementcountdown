@@ -3,24 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Calculate your personal countdown to retirement. Find out how long until your retirement and learn about important aspects of retirement planning.">
-    <meta name="keywords" content="retirement countdown, retirement age, pension planning, retirement calculator, countdown to retirement, retirement planning">
-    <meta name="author" content="RetirementCountdown">
-    <meta property="og:title" content="⏰ Retirement Countdown - Your Path to Retirement">
-    <meta property="og:description" content="Personalized countdown to your retirement. Calculate your retirement date now and get informed about retirement planning.">
-    <meta property="og:type" content="website">
-    <title>⏰ Retirement Countdown - Your Personal Countdown to Retirement</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="Calculate your personal countdown to retirement">
+    <title>⏰ Retirement Countdown</title>
+    <style>
+        :root {
+            --glow-color: #00fff7;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(rgba(26, 26, 46, 0.45), rgba(22, 33, 62, 0.45)),
+                        url('https://images.unsplash.com/photo-1509475826633-fed577a2c71b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80') center/cover no-repeat fixed;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 95%;
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--glow-color);
+            text-shadow: 0 0 10px rgba(0, 255, 247, 0.5);
+        }
+
+        .countdown {
+            display: none;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 1.5rem;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            min-width: 120px;
+        }
+
+        .number {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--glow-color);
+            text-shadow: 0 0 10px rgba(0, 255, 247, 0.5);
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        input[type="date"], input[type="number"] {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 0.8rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            width: calc(100% - 2rem);
+            margin-bottom: 1rem;
+        }
+
+        button {
+            background: var(--glow-color);
+            color: #1a1a2e;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .bottom-buttons {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .settings-panel {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.95);
+            padding: 2rem;
+            transition: bottom 0.5s;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-sizing: border-box;
+            z-index: 999;
+        }
+
+        .settings-panel.active {
+            bottom: 0;
+        }
+
+        .settings-group {
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .countdown-item {
+                width: calc(50% - 1rem);
+            }
+            
+            .action-button span {
+                display: none;
+            }
+            
+            .number {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>⏰ Retirement Countdown</h1>
         
-        <div class="form-container hidden" id="birthdayForm">
-            <div class="form-header">
-                <h3>Enter Birth Date</h3>
-                <button class="close-button" onclick="hideDatePicker()">×</button>
-            </div>
+        <div class="form-container" id="birthdayForm">
+            <h3>Enter Birth Date</h3>
             <input type="date" id="birthday" required>
             <button onclick="setBirthday()">Start Countdown</button>
         </div>
@@ -47,9 +191,7 @@
                 <div class="label">Seconds</div>
             </div>
         </div>
-        <div class="retirement-date-container">
-            <span class="retirement-date" id="retirementDate"></span>
-        </div>
+        <div id="retirementDate"></div>
     </div>
 
     <div class="bottom-buttons">
@@ -59,89 +201,48 @@
         <button class="action-button" onclick="toggleSettings()">
             ⚙️<span>Settings</span>
         </button>
-        <button class="action-button" onclick="toggleInfo()">
-            ℹ️<span>More Info</span>
-        </button>
     </div>
-
-    <nav class="navigation">
-        <a href="https://dittes.info/contact/" target="_blank">Imprint</a>
-    </nav>
 
     <div class="settings-panel" id="settingsPanel">
-        <div class="settings-panel-header">
-            <h2>Settings</h2>
-            <button class="close-button" onclick="toggleSettings()" title="Close">×</button>
+        <h2>Settings</h2>
+        <div class="settings-group">
+            <h3>Retirement Age</h3>
+            <input type="number" id="retirementAge" min="55" max="75" value="67" onchange="updateRetirementAge(this.value)">
         </div>
-        <div class="settings-content">
-            <div class="settings-group">
-                <h3>Personal Settings</h3>
-                <button class="settings-button" onclick="showDatePicker()">
-                    📅 Change Birth Date
-                </button>
-                <button class="settings-button" onclick="addToHomescreen()">
-                    📱 Add to Home Screen
-                </button>
-            </div>
-            <div class="settings-group">
-                <h3>Retirement Settings</h3>
-                <label class="settings-label" for="retirementAge">Retirement Age</label>
-                <input 
-                    type="number" 
-                    id="retirementAge" 
-                    class="settings-input" 
-                    min="55" 
-                    max="75" 
-                    value="67" 
-                    onchange="updateRetirementAge(this.value)"
-                >
-            </div>
-            <div class="settings-group">
-                <h3>Design</h3>
-                <select class="background-select" onchange="selectBackground(this.value)">
-                    <option value="0">Background 1 - Mountains</option>
-                    <option value="1">Background 2 - Sunset</option>
-                    <option value="2">Background 3 - Ocean</option>
-                    <option value="3">Background 4 - Forest</option>
-                </select>
-            </div>
-        </div>
+        <button onclick="toggleSettings()">Close</button>
     </div>
 
-    <!-- Modified script section with new retirement age functionality -->
     <script>
-        // Previous script content remains the same until retirement age functions
+        let retirementAge = localStorage.getItem('retirementAge') || 67;
+        let countdownInterval;
 
         function updateRetirementAge(age) {
-            age = parseInt(age);
-            if (age >= 55 && age <= 75) {
-                localStorage.setItem('retirementAge', age);
-                const birthday = localStorage.getItem('birthday');
-                if (birthday) {
-                    startCountdown(birthday);
-                }
+            retirementAge = parseInt(age);
+            localStorage.setItem('retirementAge', retirementAge);
+            const birthday = localStorage.getItem('birthday');
+            if (birthday) startCountdown(birthday);
+        }
+
+        function setBirthday() {
+            const birthday = document.getElementById('birthday').value;
+            if (birthday) {
+                localStorage.setItem('birthday', birthday);
+                document.getElementById('birthdayForm').classList.add('hidden');
+                startCountdown(birthday);
             }
         }
 
-        function getRetirementAge() {
-            return parseInt(localStorage.getItem('retirementAge')) || 67;
-        }
-
-        // Modified startCountdown function
         function startCountdown(birthday) {
+            if (countdownInterval) clearInterval(countdownInterval);
+            
             document.getElementById('countdown').style.display = 'flex';
             
             const birthDate = new Date(birthday);
             const retirementDate = new Date(birthDate);
-            retirementDate.setFullYear(birthDate.getFullYear() + getRetirementAge());
+            retirementDate.setFullYear(birthDate.getFullYear() + parseInt(retirementAge));
             
-            const options = { 
-                day: '2-digit', 
-                month: '2-digit', 
-                year: 'numeric' 
-            };
             document.getElementById('retirementDate').textContent = 
-                `Retirement date: ${retirementDate.toLocaleDateString('en-US', options)}`;
+                `Retirement date: ${retirementDate.toLocaleDateString()}`;
 
             function updateCountdown() {
                 const now = new Date();
@@ -165,38 +266,53 @@
             }
 
             updateCountdown();
-            setInterval(updateCountdown, 1000);
+            countdownInterval = setInterval(updateCountdown, 1000);
         }
 
-        // Modified init function
-        function init() {
-            initBackground();
-            
-            // Set initial retirement age if not set
-            if (!localStorage.getItem('retirementAge')) {
-                localStorage.setItem('retirementAge', 67);
+        function toggleSettings() {
+            document.getElementById('settingsPanel').classList.toggle('active');
+        }
+
+        function sharePage() {
+            const birthday = localStorage.getItem('birthday');
+            if (birthday) {
+                const shareUrl = `${window.location.origin}${window.location.pathname}?birth=${birthday}&age=${retirementAge}`;
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'My Retirement Countdown',
+                        text: 'Check out my retirement countdown!',
+                        url: shareUrl
+                    }).catch(console.error);
+                } else {
+                    navigator.clipboard.writeText(shareUrl).then(() => {
+                        alert('Link copied to clipboard!');
+                    }).catch(console.error);
+                }
             }
-            document.getElementById('retirementAge').value = getRetirementAge();
-            
+        }
+
+        // Initialize
+        window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const urlDate = urlParams.get('birth');
+            const urlAge = urlParams.get('age');
+            
+            if (urlAge) {
+                retirementAge = parseInt(urlAge);
+                document.getElementById('retirementAge').value = retirementAge;
+            }
             
             if (urlDate) {
-                const formattedDate = new Date(urlDate).toISOString().split('T')[0];
-                document.getElementById('birthday').value = formattedDate;
+                document.getElementById('birthday').value = urlDate;
                 setBirthday();
             } else {
                 const storedBirthday = localStorage.getItem('birthday');
                 if (storedBirthday) {
                     document.getElementById('birthday').value = storedBirthday;
                     startCountdown(storedBirthday);
-                } else {
-                    showDatePicker();
                 }
             }
-        }
-
-        init();
+        };
     </script>
 </body>
 </html>
