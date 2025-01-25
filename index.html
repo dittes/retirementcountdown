@@ -69,28 +69,71 @@
             text-shadow: 0 0 10px rgba(0, 255, 247, 0.5);
         }
 
-        .info-panel {
-            position: fixed;
-            bottom: -100%;
-            left: 0;
-            width: 100%;
-            background: rgba(26, 26, 46, 0.95);
+        .label {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.3);
             padding: 2rem;
-            transition: bottom 0.5s;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-sizing: border-box;
-            z-index: 999;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            width: 90%;
+            max-width: 400px;
         }
 
-        .info-panel.active {
-            bottom: 0;
+        .hidden {
+            display: none !important;
         }
 
-        .info-content {
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.6;
+        input[type="date"], input[type="number"] {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 0.8rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            width: calc(100% - 1.6rem);
+            margin-bottom: 1rem;
+        }
+
+        button {
+            background: var(--glow-color);
+            color: #1a1a2e;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .bottom-buttons {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 998;
+        }
+
+        .action-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
         }
 
         .settings-panel {
@@ -146,6 +189,11 @@
             text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
+        .retirement-date {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
         @media (max-width: 768px) {
             .countdown {
                 gap: 0.5rem;
@@ -165,16 +213,58 @@
                 display: none;
             }
         }
-
-        /* Rest of your existing styles */
-
     </style>
 </head>
 <body>
-    <!-- Previous HTML structure plus: -->
+    <div class="container">
+        <h1>⏰ Retirement Countdown</h1>
+        
+        <div class="form-container hidden" id="birthdayForm">
+            <h3>Enter Birth Date</h3>
+            <input type="date" id="birthday" required>
+            <button onclick="setBirthday()">Start Countdown</button>
+        </div>
+
+        <div id="countdown" class="countdown">
+            <div class="countdown-item">
+                <div class="number" id="years">0</div>
+                <div class="label">Years</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="months">0</div>
+                <div class="label">Months</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="days">0</div>
+                <div class="label">Days</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="hours">0</div>
+                <div class="label">Hours</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="seconds">0</div>
+                <div class="label">Seconds</div>
+            </div>
+        </div>
+        <div class="retirement-date" id="retirementDate"></div>
+    </div>
+
+    <div class="bottom-buttons">
+        <button class="action-button" onclick="sharePage()">
+            🔗<span>Share</span>
+        </button>
+        <button class="action-button" onclick="toggleSettings()">
+            ⚙️<span>Settings</span>
+        </button>
+    </div>
 
     <div class="settings-panel" id="settingsPanel">
         <h2>Settings</h2>
+        <div class="settings-group">
+            <h3>Date Settings</h3>
+            <button onclick="showDatePicker()">Change Birth Date</button>
+        </div>
         <div class="settings-group">
             <h3>Retirement Age</h3>
             <input type="number" id="retirementAge" min="55" max="75" value="67" onchange="updateRetirementAge(this.value)">
@@ -191,28 +281,71 @@
         <button onclick="toggleSettings()">Close</button>
     </div>
 
-    <div class="info-panel" id="infoPanel">
-        <h2>About Retirement Planning</h2>
-        <div class="info-content">
-            <h3>Understanding Retirement</h3>
-            <p>Retirement planning is a crucial aspect of financial well-being. In most countries, the standard retirement age is between 65 and 67 years, though this can vary based on factors such as occupation, contribution years, and personal choice.</p>
-
-            <h3>Key Retirement Considerations</h3>
-            <ul>
-                <li>Pension and Social Security benefits</li>
-                <li>Personal savings and investments</li>
-                <li>Healthcare costs</li>
-                <li>Lifestyle adjustments</li>
-            </ul>
-
-            <h3>Planning Ahead</h3>
-            <p>This countdown tool helps you visualize the time remaining until retirement, encouraging early planning and preparation. It's recommended to start retirement planning as early as possible to ensure financial security in your later years.</p>
-        </div>
-        <button onclick="toggleInfo()">Close</button>
-    </div>
-
     <script>
-        // Previous JavaScript plus:
+        let retirementAge = localStorage.getItem('retirementAge') || 67;
+        let countdownInterval;
+
+        function updateRetirementAge(age) {
+            retirementAge = parseInt(age);
+            localStorage.setItem('retirementAge', retirementAge);
+            const birthday = localStorage.getItem('birthday');
+            if (birthday) startCountdown(birthday);
+        }
+
+        function setBirthday() {
+            const birthday = document.getElementById('birthday').value;
+            if (birthday) {
+                localStorage.setItem('birthday', birthday);
+                document.getElementById('birthdayForm').classList.add('hidden');
+                startCountdown(birthday);
+            }
+        }
+
+        function showDatePicker() {
+            document.getElementById('birthdayForm').classList.remove('hidden');
+            toggleSettings();
+        }
+
+        function startCountdown(birthday) {
+            if (countdownInterval) clearInterval(countdownInterval);
+            
+            document.getElementById('countdown').style.display = 'flex';
+            
+            const birthDate = new Date(birthday);
+            const retirementDate = new Date(birthDate);
+            retirementDate.setFullYear(birthDate.getFullYear() + parseInt(retirementAge));
+            
+            document.getElementById('retirementDate').textContent = 
+                `Retirement date: ${retirementDate.toLocaleDateString()}`;
+
+            function updateCountdown() {
+                const now = new Date();
+                const difference = retirementDate - now;
+
+                if (difference > 0) {
+                    const years = Math.floor(difference / (1000 * 60 * 60 * 24 * 365));
+                    const months = Math.floor((difference % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+                    const days = Math.floor((difference % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                    document.getElementById('years').textContent = years;
+                    document.getElementById('months').textContent = months;
+                    document.getElementById('days').textContent = days;
+                    document.getElementById('hours').textContent = hours;
+                    document.getElementById('seconds').textContent = seconds;
+                } else {
+                    document.getElementById('countdown').innerHTML = '<h2>You are already retired! 🎉</h2>';
+                }
+            }
+
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 1000);
+        }
+
+        function toggleSettings() {
+            document.getElementById('settingsPanel').classList.toggle('active');
+        }
 
         const backgrounds = [
             'https://images.unsplash.com/photo-1509475826633-fed577a2c71b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
@@ -234,18 +367,31 @@
             });
         }
 
-        function toggleInfo() {
-            document.getElementById('infoPanel').classList.toggle('active');
+        function sharePage() {
+            const birthday = localStorage.getItem('birthday');
+            if (birthday) {
+                const shareUrl = `${window.location.origin}${window.location.pathname}?birth=${birthday}&age=${retirementAge}`;
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'My Retirement Countdown',
+                        text: 'Check out my retirement countdown!',
+                        url: shareUrl
+                    }).catch(console.error);
+                } else {
+                    navigator.clipboard.writeText(shareUrl).then(() => {
+                        alert('Link copied to clipboard!');
+                    }).catch(console.error);
+                }
+            }
         }
 
-        // Add to your init function:
-        const savedBg = localStorage.getItem('background');
-        if (savedBg !== null) {
-            setBackground(parseInt(savedBg));
-        }
+        window.onload = function() {
+            document.getElementById('retirementAge').value = retirementAge;
+            
+            const savedBg = localStorage.getItem('background');
+            if (savedBg !== null) {
+                setBackground(parseInt(savedBg));
+            }
 
-        /* Rest of your existing JavaScript */
-
-    </script>
-</body>
-</html>
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlDate = urlParams.get('birth');
