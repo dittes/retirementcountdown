@@ -91,7 +91,7 @@ function sharePage() {
     const background = localStorage.getItem('background');
     
     if (birthday) {
-        const shareUrl = `${window.location.origin}${window.location.pathname}?birth=${birthday}&age=${retirementAge}&bg=${background}`;
+        const shareUrl = `${window.location.origin}${window.location.pathname}?birth=${birthday}&bg=${background}`;
         if (navigator.share) {
             navigator.share({
                 title: 'My Retirement Countdown',
