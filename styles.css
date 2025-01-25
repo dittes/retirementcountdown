@@ -224,6 +224,7 @@ button:hover {
     max-width: 800px;
     margin: 0 auto;
     line-height: 1.6;
+    text-align: left;
 }
 
 @media (max-width: 768px) {
