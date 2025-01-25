@@ -5,34 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Primary Meta Tags -->
-    <title>⏰ Retirement Countdown - Your Path to Retirement</title>
-    <!-- Primary Meta Tags -->
     <meta name="title" content="⏰ Retirement Countdown - Personal Retirement Calculator">
     <meta name="description" content="Calculate your personal countdown to retirement. See exactly how many years, months, days, and seconds until you reach retirement age. Free personalized retirement timer.">
     <meta name="keywords" content="retirement countdown, retirement calculator, retirement timer, retirement planning, pension countdown, retirement age calculator">
     <meta name="author" content="RetirementCountdown">
     <meta name="theme-color" content="#00fff7">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://rcountdown.com/">
     <meta property="og:title" content="⏰ Retirement Countdown - See Your Personal Path to Retirement">
     <meta property="og:description" content="Start your personalized retirement countdown now. Interactive timer showing years, months, days and seconds until your retirement. Set your retirement age and track your journey.">
     <meta property="og:image" content="https://rcountdown.com/share-image.jpg">
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://rcountdown.com/">
     <meta property="twitter:title" content="⏰ Retirement Countdown - Personal Retirement Timer">
     <meta property="twitter:description" content="How long until your retirement? Get your personalized countdown showing years, months, days and seconds until you reach retirement age. Free retirement calculator.">
     <meta property="twitter:image" content="https://rcountdown.com/share-image.jpg">
-    
+
     <!-- Additional Meta Tags -->
     <meta name="application-name" content="Retirement Countdown">
     <meta name="robots" content="index, follow">
     <meta name="googlebot" content="index, follow">
     <meta http-equiv="content-language" content="en">
     
+    <title>⏰ Retirement Countdown</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -56,4 +55,51 @@
             </div>
             <div class="countdown-item">
                 <div class="number" id="days">0</div>
-                <div class="
+                <div class="label">Days</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="hours">0</div>
+                <div class="label">Hours</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="seconds">0</div>
+                <div class="label">Seconds</div>
+            </div>
+        </div>
+        <div class="retirement-date" id="retirementDate"></div>
+    </div>
+
+    <div class="bottom-buttons">
+        <button class="action-button" onclick="sharePage()">
+            🔗<span>Share</span>
+        </button>
+        <button class="action-button" onclick="toggleSettings()">
+            ⚙️<span>Settings</span>
+        </button>
+    </div>
+
+    <div class="settings-panel" id="settingsPanel">
+        <h2>Settings</h2>
+        <div class="settings-group">
+            <h3>Date Settings</h3>
+            <button onclick="showDatePicker()">Change Birth Date</button>
+        </div>
+        <div class="settings-group">
+            <h3>Retirement Age</h3>
+            <input type="number" id="retirementAge" min="55" max="75" value="67" onchange="updateRetirementAge(this.value)">
+        </div>
+        <div class="settings-group">
+            <h3>Background</h3>
+            <div class="backgrounds-grid">
+                <div class="background-option" onclick="setBackground(0)" style="background-image: url('https://images.unsplash.com/photo-1509475826633-fed577a2c71b?ixlib=rb-4.0.3')"></div>
+                <div class="background-option" onclick="setBackground(1)" style="background-image: url('https://images.unsplash.com/photo-1494783367193-149034c05e8f?ixlib=rb-4.0.3')"></div>
+                <div class="background-option" onclick="setBackground(2)" style="background-image: url('https://images.unsplash.com/photo-1499363536502-87642509e31b?ixlib=rb-4.0.3')"></div>
+                <div class="background-option" onclick="setBackground(3)" style="background-image: url('https://images.unsplash.com/photo-1508615039623-a25605d2b022?ixlib=rb-4.0.3')"></div>
+            </div>
+        </div>
+        <button onclick="toggleSettings()">Close</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
