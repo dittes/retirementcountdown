@@ -186,6 +186,48 @@ button:hover {
     margin-top: 1rem;
 }
 
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.close-button {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.info-panel {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    background: rgba(26, 26, 46, 0.95);
+    padding: 2rem;
+    transition: bottom 0.5s;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    z-index: 999;
+}
+
+.info-panel.active {
+    bottom: 0;
+}
+
+.info-content {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
 @media (max-width: 768px) {
     .countdown {
         gap: 0.5rem;
