@@ -62,6 +62,10 @@
                 <div class="label">Hours</div>
             </div>
             <div class="countdown-item">
+                <div class="number" id="minutes">0</div>
+                <div class="label">Minutes</div>
+            </div>
+            <div class="countdown-item">
                 <div class="number" id="seconds">0</div>
                 <div class="label">Seconds</div>
             </div>
@@ -76,10 +80,20 @@
         <button class="action-button" onclick="toggleSettings()">
             ⚙️<span>Settings</span>
         </button>
+        <button class="action-button" onclick="toggleInfo()">
+            ℹ️<span>Info</span>
+        </button>
     </div>
 
     <div class="settings-panel" id="settingsPanel">
-        <h2>Settings</h2>
+        <div class="panel-header">
+            <h2>Settings</h2>
+            <button class="close-button" onclick="toggleSettings()">×</button>
+        </div>
+        <div class="settings-group">
+            <h3>Quick Actions</h3>
+            <button onclick="addToHomescreen()">📱 Add to Home Screen</button>
+        </div>
         <div class="settings-group">
             <h3>Date Settings</h3>
             <button onclick="showDatePicker()">Change Birth Date</button>
@@ -97,7 +111,62 @@
                 <div class="background-option" onclick="setBackground(3)" style="background-image: url('https://images.unsplash.com/photo-1508615039623-a25605d2b022?ixlib=rb-4.0.3')"></div>
             </div>
         </div>
+              <div>
+                <p>Page contact:</p>
+
+                <p>Andreas Dittes<br />
+                Bautzener Str. 35<br />
+                10829 Berlin</p>
+                
+                <p>E-Mail: andreas@dittes.info<br />
+                Internet: https://dittes.info</p>
+                
+                <p>Inhaltlich Verantwortlicher gemäß § 10 Absatz 3 MDStV:<br />
+                Andreas Dittes (Anschrift wie oben)</p>
+                
+                <p>Haftungshinweis:<br />
+                Trotz sorgfältiger inhaltlicher Kontrolle übernehme ich keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.<br /><br />
+                
+                Werbung<br /><br />
+                Eigennützige Werbung in wird den betreffenden Firmen oder Einzelpersonen in Rechnung gestellt.<br />
+                Anfragen einer Werbepartnerschaft unter werbepartner@dittes.info möglich.</p>
+            </div>
         <button onclick="toggleSettings()">Close</button>
+    </div>
+        <div class="info-panel" id="infoPanel">
+        <div class="panel-header">
+            <h2>Retirement Information</h2>
+            <button class="close-button" onclick="toggleInfo()">×</button>
+        </div>
+        <div class="info-content">
+            <h3>About This Website</h3>
+            <p>The Retirement Countdown provides a personalized visualization of your journey to retirement. By entering your birth date and desired retirement age, you can track the exact time remaining until this important milestone.</p>
+
+            <h3>Retirement Ages in the USA</h3>
+            <p>In the United States, retirement ages vary based on several factors:</p>
+            <ul>
+                <li><strong>Social Security Full Retirement Age:</strong> Between 66 and 67, depending on birth year</li>
+                <li><strong>Early Retirement:</strong> Available from age 62 (with reduced benefits)</li>
+                <li><strong>Delayed Retirement:</strong> Up to age 70 (with increased benefits)</li>
+            </ul>
+
+            <h3>Social Security Benefits</h3>
+            <p>Your Social Security retirement benefit is based on:</p>
+            <ul>
+                <li>Your lifetime earnings history</li>
+                <li>The age at which you start receiving benefits</li>
+                <li>Your work duration (minimum 40 credits needed)</li>
+            </ul>
+
+            <h3>Retirement Planning Tips</h3>
+            <p>Consider these key aspects when planning for retirement:</p>
+            <ul>
+                <li>Start saving early through 401(k)s and IRAs</li>
+                <li>Diversify your retirement portfolio</li>
+                <li>Consider healthcare costs and Medicare eligibility</li>
+                <li>Plan for inflation and cost of living adjustments</li>
+            </ul>
+        </div>
     </div>
 
     <script src="script.js"></script>
