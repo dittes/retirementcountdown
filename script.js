@@ -119,6 +119,20 @@ function toggleInfo() {
     adjustBottomButtons();
 }
 
+function adjustBottomButtons() {
+    const bottomButtons = document.querySelector('.bottom-buttons');
+    const infoPanel = document.getElementById('infoPanel');
+    const settingsPanel = document.getElementById('settingsPanel');
+    
+    if (infoPanel.classList.contains('active')) {
+        bottomButtons.style.bottom = `${infoPanel.clientHeight + 20}px`;
+    } else if (settingsPanel.classList.contains('active')) {
+        bottomButtons.style.bottom = `${settingsPanel.clientHeight + 20}px`;
+    } else {
+        bottomButtons.style.bottom = '20px';
+    }
+}
+
 function addToHomescreen() {
     if (window.matchMedia('(display-mode: standalone)').matches) {
         alert('Website is already installed as app!');
