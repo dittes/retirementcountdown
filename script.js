@@ -106,6 +106,41 @@ function sharePage() {
     }
 }
 
+function toggleInfo() {
+    const infoPanel = document.getElementById('infoPanel');
+    const settingsPanel = document.getElementById('settingsPanel');
+    
+    // Close settings panel if open
+    if (settingsPanel.classList.contains('active')) {
+        settingsPanel.classList.remove('active');
+    }
+    
+    infoPanel.classList.toggle('active');
+    adjustBottomButtons();
+}
+
+function addToHomescreen() {
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        alert('Website is already installed as app!');
+        return;
+    }
+
+    if (window.navigator.standalone === true) {
+        alert('Website is already added to home screen!');
+        return;
+    }
+
+    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+        alert('To add to home screen:\n1. Tap the Share button\n2. Select "Add to Home Screen"');
+    } else if (/Android/.test(navigator.userAgent)) {
+        alert('To add to home screen:\n1. Tap the menu (⋮)\n2. Select "Add to Home Screen"');
+    } else {
+        alert('Add to bookmarks using:\n' + 
+              (navigator.userAgent.toLowerCase().indexOf('mac') != -1 ? 'Command (⌘)' : 'Ctrl') + 
+              ' + D');
+    }
+}
+
 window.onload = function() {
     document.getElementById('retirementAge').value = retirementAge;
     
