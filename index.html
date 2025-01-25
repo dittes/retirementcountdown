@@ -3,217 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Calculate your personal countdown to retirement">
-    <title>⏰ Retirement Countdown</title>
-    <style>
-        :root {
-            --glow-color: #00fff7;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            background: linear-gradient(rgba(26, 26, 46, 0.45), rgba(22, 33, 62, 0.45)),
-                        url('https://images.unsplash.com/photo-1509475826633-fed577a2c71b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80') center/cover no-repeat fixed;
-            transition: background-image 0.5s ease;
-        }
-
-        .container {
-            max-width: 1200px;
-            width: 95%;
-            position: relative;
-            min-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: var(--glow-color);
-            text-shadow: 0 0 10px rgba(0, 255, 247, 0.5);
-        }
-
-        .countdown {
-            display: none;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 2rem 0;
-            max-width: 1000px;
-        }
-
-        .countdown-item {
-            background: rgba(255, 255, 255, 0.3);
-            padding: 1.5rem;
-            border-radius: 10px;
-            backdrop-filter: blur(5px);
-            min-width: 120px;
-            flex: 1;
-        }
-
-        .number {
-            font-size: 3.5rem;
-            font-weight: bold;
-            color: var(--glow-color);
-            text-shadow: 0 0 10px rgba(0, 255, 247, 0.5);
-        }
-
-        .label {
-            font-size: 1.2rem;
-            margin-top: 0.5rem;
-        }
-
-        .form-container {
-            background: rgba(255, 255, 255, 0.3);
-            padding: 2rem;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-            width: 90%;
-            max-width: 400px;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        input[type="date"], input[type="number"] {
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            padding: 0.8rem;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            width: calc(100% - 1.6rem);
-            margin-bottom: 1rem;
-        }
-
-        button {
-            background: var(--glow-color);
-            color: #1a1a2e;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        button:hover {
-            transform: scale(1.05);
-        }
-
-        .bottom-buttons {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            display: flex;
-            gap: 10px;
-            z-index: 998;
-        }
-
-        .action-button {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            backdrop-filter: blur(5px);
-            border-radius: 20px;
-        }
-
-        .settings-panel {
-            position: fixed;
-            bottom: -100%;
-            left: 0;
-            width: 100%;
-            background: rgba(26, 26, 46, 0.95);
-            padding: 2rem;
-            transition: bottom 0.5s;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-sizing: border-box;
-            z-index: 999;
-        }
-
-        .settings-panel.active {
-            bottom: 0;
-        }
-
-        .settings-group {
-            margin-bottom: 2rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-
-        .backgrounds-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .background-option {
-            height: 100px;
-            border-radius: 10px;
-            cursor: pointer;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .background-option.active::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 2rem;
-            color: white;
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .retirement-date {
-            font-size: 1.2rem;
-            margin-top: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            .countdown {
-                gap: 0.5rem;
-            }
-
-            .countdown-item {
-                width: calc(50% - 1rem);
-                flex: 0 0 calc(50% - 1rem);
-                padding: 1rem;
-            }
-
-            .number {
-                font-size: 2rem;
-            }
-
-            .action-button span {
-                display: none;
-            }
-        }
-    </style>
+    
+    <!-- Primary Meta Tags -->
+    <title>⏰ Retirement Countdown - Your Path to Retirement</title>
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="⏰ Retirement Countdown - Personal Retirement Calculator">
+    <meta name="description" content="Calculate your personal countdown to retirement. See exactly how many years, months, days, and seconds until you reach retirement age. Free personalized retirement timer.">
+    <meta name="keywords" content="retirement countdown, retirement calculator, retirement timer, retirement planning, pension countdown, retirement age calculator">
+    <meta name="author" content="RetirementCountdown">
+    <meta name="theme-color" content="#00fff7">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rcountdown.com/">
+    <meta property="og:title" content="⏰ Retirement Countdown - See Your Personal Path to Retirement">
+    <meta property="og:description" content="Start your personalized retirement countdown now. Interactive timer showing years, months, days and seconds until your retirement. Set your retirement age and track your journey.">
+    <meta property="og:image" content="https://rcountdown.com/share-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://rcountdown.com/">
+    <meta property="twitter:title" content="⏰ Retirement Countdown - Personal Retirement Timer">
+    <meta property="twitter:description" content="How long until your retirement? Get your personalized countdown showing years, months, days and seconds until you reach retirement age. Free retirement calculator.">
+    <meta property="twitter:image" content="https://rcountdown.com/share-image.jpg">
+    
+    <!-- Additional Meta Tags -->
+    <meta name="application-name" content="Retirement Countdown">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta http-equiv="content-language" content="en">
+    
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
@@ -236,162 +56,4 @@
             </div>
             <div class="countdown-item">
                 <div class="number" id="days">0</div>
-                <div class="label">Days</div>
-            </div>
-            <div class="countdown-item">
-                <div class="number" id="hours">0</div>
-                <div class="label">Hours</div>
-            </div>
-            <div class="countdown-item">
-                <div class="number" id="seconds">0</div>
-                <div class="label">Seconds</div>
-            </div>
-        </div>
-        <div class="retirement-date" id="retirementDate"></div>
-    </div>
-
-    <div class="bottom-buttons">
-        <button class="action-button" onclick="sharePage()">
-            🔗<span>Share</span>
-        </button>
-        <button class="action-button" onclick="toggleSettings()">
-            ⚙️<span>Settings</span>
-        </button>
-    </div>
-
-    <div class="settings-panel" id="settingsPanel">
-        <h2>Settings</h2>
-        <div class="settings-group">
-            <h3>Date Settings</h3>
-            <button onclick="showDatePicker()">Change Birth Date</button>
-        </div>
-        <div class="settings-group">
-            <h3>Retirement Age</h3>
-            <input type="number" id="retirementAge" min="55" max="75" value="67" onchange="updateRetirementAge(this.value)">
-        </div>
-        <div class="settings-group">
-            <h3>Background</h3>
-            <div class="backgrounds-grid">
-                <div class="background-option" onclick="setBackground(0)" style="background-image: url('https://images.unsplash.com/photo-1509475826633-fed577a2c71b?ixlib=rb-4.0.3')"></div>
-                <div class="background-option" onclick="setBackground(1)" style="background-image: url('https://images.unsplash.com/photo-1494783367193-149034c05e8f?ixlib=rb-4.0.3')"></div>
-                <div class="background-option" onclick="setBackground(2)" style="background-image: url('https://images.unsplash.com/photo-1499363536502-87642509e31b?ixlib=rb-4.0.3')"></div>
-                <div class="background-option" onclick="setBackground(3)" style="background-image: url('https://images.unsplash.com/photo-1508615039623-a25605d2b022?ixlib=rb-4.0.3')"></div>
-            </div>
-        </div>
-        <button onclick="toggleSettings()">Close</button>
-    </div>
-
-    <script>
-        let retirementAge = localStorage.getItem('retirementAge') || 67;
-        let countdownInterval;
-
-        function updateRetirementAge(age) {
-            retirementAge = parseInt(age);
-            localStorage.setItem('retirementAge', retirementAge);
-            const birthday = localStorage.getItem('birthday');
-            if (birthday) startCountdown(birthday);
-        }
-
-        function setBirthday() {
-            const birthday = document.getElementById('birthday').value;
-            if (birthday) {
-                localStorage.setItem('birthday', birthday);
-                document.getElementById('birthdayForm').classList.add('hidden');
-                startCountdown(birthday);
-            }
-        }
-
-        function showDatePicker() {
-            document.getElementById('birthdayForm').classList.remove('hidden');
-            toggleSettings();
-        }
-
-        function startCountdown(birthday) {
-            if (countdownInterval) clearInterval(countdownInterval);
-            
-            document.getElementById('countdown').style.display = 'flex';
-            
-            const birthDate = new Date(birthday);
-            const retirementDate = new Date(birthDate);
-            retirementDate.setFullYear(birthDate.getFullYear() + parseInt(retirementAge));
-            
-            document.getElementById('retirementDate').textContent = 
-                `Retirement date: ${retirementDate.toLocaleDateString()}`;
-
-            function updateCountdown() {
-                const now = new Date();
-                const difference = retirementDate - now;
-
-                if (difference > 0) {
-                    const years = Math.floor(difference / (1000 * 60 * 60 * 24 * 365));
-                    const months = Math.floor((difference % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
-                    const days = Math.floor((difference % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-                    document.getElementById('years').textContent = years;
-                    document.getElementById('months').textContent = months;
-                    document.getElementById('days').textContent = days;
-                    document.getElementById('hours').textContent = hours;
-                    document.getElementById('seconds').textContent = seconds;
-                } else {
-                    document.getElementById('countdown').innerHTML = '<h2>You are already retired! 🎉</h2>';
-                }
-            }
-
-            updateCountdown();
-            countdownInterval = setInterval(updateCountdown, 1000);
-        }
-
-        function toggleSettings() {
-            document.getElementById('settingsPanel').classList.toggle('active');
-        }
-
-        const backgrounds = [
-            'https://images.unsplash.com/photo-1509475826633-fed577a2c71b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
-            'https://images.unsplash.com/photo-1494783367193-149034c05e8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-            'https://images.unsplash.com/photo-1499363536502-87642509e31b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-            'https://images.unsplash.com/photo-1508615039623-a25605d2b022?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-        ];
-
-        function setBackground(index) {
-            const bg = backgrounds[index];
-            document.body.style.backgroundImage = `linear-gradient(rgba(26, 26, 46, 0.45), rgba(22, 33, 62, 0.45)), url('${bg}')`;
-            localStorage.setItem('background', index);
-            updateBackgroundSelections(index);
-        }
-
-        function updateBackgroundSelections(activeIndex) {
-            document.querySelectorAll('.background-option').forEach((option, index) => {
-                option.classList.toggle('active', index === activeIndex);
-            });
-        }
-
-        function sharePage() {
-            const birthday = localStorage.getItem('birthday');
-            if (birthday) {
-                const shareUrl = `${window.location.origin}${window.location.pathname}?birth=${birthday}&age=${retirementAge}`;
-                if (navigator.share) {
-                    navigator.share({
-                        title: 'My Retirement Countdown',
-                        text: 'Check out my retirement countdown!',
-                        url: shareUrl
-                    }).catch(console.error);
-                } else {
-                    navigator.clipboard.writeText(shareUrl).then(() => {
-                        alert('Link copied to clipboard!');
-                    }).catch(console.error);
-                }
-            }
-        }
-
-        window.onload = function() {
-            document.getElementById('retirementAge').value = retirementAge;
-            
-            const savedBg = localStorage.getItem('background');
-            if (savedBg !== null) {
-                setBackground(parseInt(savedBg));
-            }
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const urlDate = urlParams.get('birth');
+                <div class="
